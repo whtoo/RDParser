@@ -1,5 +1,6 @@
 package com.blitz.tutorial.chapter4;
 
+import com.blitz.tutorial.chapter5.MismatchedTokenException;
 import com.blitz.tutorial.common.Lexer;
 import com.blitz.tutorial.common.Token;
 
@@ -37,9 +38,9 @@ public class Parser {
         return markers.size() > 0;
     }
 
-    public void match(int x) {
+    public void match(int x) throws MismatchedTokenException {
         if (LA(1) == x) consume();
-        else throw new Error("expecting " + input.getTokenName(x)+"; found "+ input.getTokenName(LA(1)));
+        else throw new MismatchedTokenException("expecting " + input.getTokenName(x)+"; found "+ input.getTokenName(LA(1)));
     }
 
     /// 预读n个token(注意在pos和i都不变的前提下，反复调用并不会导致lookhead不断增大.)
@@ -78,5 +79,9 @@ public class Parser {
 
     protected void seek(int idx){
         pos = idx;
+    }
+
+    protected Integer index() {
+        return pos;
     }
 }

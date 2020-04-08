@@ -9,6 +9,10 @@ public class Token {
         this.rawText = rawText;
     }
 
+    public String text() {
+        return this.rawText;
+    }
+
     @Override
     public String toString() {
 

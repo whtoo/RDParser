@@ -1,5 +1,6 @@
 package com.blitz.tutorial.chapter4;
 
+import com.blitz.tutorial.chapter5.PreviousParseFailedException;
 import com.blitz.tutorial.common.Lexer;
 // stat : list EOF | assign EOF ;
 // assign : list '=' list ;
@@ -16,7 +17,7 @@ public class BackTrackParser extends Parser {
     /**
      * stat : list EOF | assign EOF
      */
-    public void stat() {
+    public void stat() throws Exception {
         if (speculate_stat_alt1()) {
             list();
             match(Lexer.EOF_TYPE);
@@ -30,6 +31,7 @@ public class BackTrackParser extends Parser {
     }
 
     protected boolean speculate_stat_alt1() {
+        System.out.println("attempt alternative 1");
         boolean success = true;
         mark();
 
@@ -47,6 +49,7 @@ public class BackTrackParser extends Parser {
     }
 
     protected boolean speculate_stat_alt2() {
+        System.out.println("attempt alternative 2");
         boolean success = true;
         mark();
 
@@ -64,21 +67,22 @@ public class BackTrackParser extends Parser {
     }
 
     // list : '[' elements ']'
-    protected void list() {
+    protected void list() throws Exception {
+        System.out.println("Parse list rule at index"+index());
         match(BackTrackLexer.LBRACK);
         elements();
         match(BackTrackLexer.RBRACK);
     }
 
     // assign : list '=' list ;
-    protected void assign() {
+    protected void assign() throws Exception {
         list();
         match(BackTrackLexer.EQUALS);
         list();
     }
 
     // elements : element (',', element)*
-    protected void elements() {
+    protected void elements() throws Exception {
         element();
         while (LA(1) == BackTrackLexer.COMMA) {
             match(BackTrackLexer.COMMA);
@@ -87,7 +91,7 @@ public class BackTrackParser extends Parser {
     }
 
     // element : NAME = NAME | NAME | list;
-    protected void element() {
+    protected void element() throws Exception {
         if(LA(1) == BackTrackLexer.NAME && LA(2) == BackTrackLexer.EQUALS) {
             match(BackTrackLexer.NAME);
             match(BackTrackLexer.EQUALS);
@@ -101,7 +105,7 @@ public class BackTrackParser extends Parser {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Lexer lexer = new BackTrackLexer(args[0]);
         BackTrackParser parser = new BackTrackParser(lexer);
         parser.stat();
