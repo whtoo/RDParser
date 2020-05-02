@@ -1,7 +1,12 @@
 package com.blitz.tutorial.chapter4;
 
 import com.blitz.tutorial.chapter5.PreviousParseFailedException;
+import com.blitz.tutorial.chapter5.ast.AstNode;
 import com.blitz.tutorial.common.Lexer;
+
+/**
+ * 单行模式
+ */
 // stat : list EOF | assign EOF ;
 // assign : list '=' list ;
 // list : '[' elements ']'
@@ -9,7 +14,7 @@ import com.blitz.tutorial.common.Lexer;
 // element : NAME = NAME | NAME | list;
 
 public class BackTrackParser extends Parser {
-
+    AstNode rootNode;
     public BackTrackParser(Lexer input) {
         super(input);
     }
