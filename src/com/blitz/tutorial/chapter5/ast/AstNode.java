@@ -2,6 +2,7 @@ package com.blitz.tutorial.chapter5.ast;
 
 import com.blitz.tutorial.common.Token;
 
+import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 
 public abstract class AstNode {
@@ -12,10 +13,13 @@ public abstract class AstNode {
     /**
      * 定义4中不同的节点类型
      */
-    public static int ElEMENTTEPE = 0x1000;
-    public static int ElEMENTTYPE = 0x1001;
+    public static int STATTYPE = 0x1000;
     public static int LISTTYPE = 0x1001;
-    public static int NAMETYPE = 0x1002;
+    public static int ASSIGNTYPE = 0x1002;
+    public static int ElEMENTSTYPE = 0x1003;
+    public static int ElEMENTTEPE = 0x1004;
+    public static int LEAFLTYPE = 0x1006;
+    public static int EOFTYPE = 0x1009;
 
     public AstNode(Token token,int type){
         this.token = token;
@@ -52,5 +56,30 @@ public abstract class AstNode {
     public void removeChildByIndex(int idx){
         this.childNodes.remove(idx);
     }
+    public String typeName() {
+        if(type == ASSIGNTYPE) {
+            return "AssingNode";
+        } else if(type == STATTYPE){
+            return "StatNode";
+        } else if(type == ElEMENTTEPE){
+            return "ElementNode";
+        } else if(type == ElEMENTSTYPE) {
+            return "ElementsNode";
+        } else if(type == LEAFLTYPE) {
+            return "TerminalNode";
+        } else {
+            return "UnanmedNode";
+        }
 
+    }
+
+    @Override
+    public String toString() {
+        return "AstNode{" +
+                "token=" + token +
+                ", synVal='" + synVal + '\'' +
+                ", type=" + typeName() +
+                ", childNodes=" + childNodes +
+                '}';
+    }
 }

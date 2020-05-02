@@ -57,7 +57,9 @@ public class Parser {
             lookahead.add(input.nextToken());
         }
     }
-
+    public Token peekLT(int i) {
+        return lookahead.get(pos + i -1);
+    }
     public Token LT(int i) {
         sync(i);
         return lookahead.get(pos + i - 1);

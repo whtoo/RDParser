@@ -4,8 +4,8 @@ import com.blitz.tutorial.common.Token;
 
 public class ListNode extends AstNode {
 
-    public ListNode(Token token, int type) {
-        super(token, type);
+    public ListNode() {
+        super(null, AstNode.LISTTYPE);
     }
 
     @Override

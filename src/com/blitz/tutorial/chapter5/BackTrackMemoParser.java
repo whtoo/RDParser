@@ -2,6 +2,9 @@ package com.blitz.tutorial.chapter5;
 
 import com.blitz.tutorial.chapter4.BackTrackLexer;
 import com.blitz.tutorial.chapter4.BackTrackParser;
+import com.blitz.tutorial.chapter5.ast.AstNode;
+import com.blitz.tutorial.chapter5.ast.ListNode;
+import com.blitz.tutorial.chapter5.ast.TerminalNode;
 import com.blitz.tutorial.common.Lexer;
 
 import java.util.HashMap;
@@ -52,26 +55,30 @@ public class BackTrackMemoParser extends BackTrackParser {
         this.memoCSTMap.clear();
     }
 
-    protected void _list() throws Exception {
+    protected AstNode _list() throws Exception {
         System.out.println("Parsed list rule at token index:"+index());
+        AstNode list = new ListNode();
+        list.addChildNode(new TerminalNode(LT(1)));
         match(BackTrackLexer.LBRACK);
-        elements();
+        list.addChildNode(elements());
+        list.addChildNode(new TerminalNode(LT(1)));
         match(BackTrackLexer.RBRACK);
+        return list;
     }
 
     /**
      * list : '[' elements ']'
      */
     @Override
-    protected void list() throws Exception {
+    protected AstNode list() throws Exception {
         // Store enter position for restoring
         boolean falied = false;
         Integer startTokenIndex = index();
         if(isSpeculating() && alreadyParsedRule()) {
-            return;
+            return null;
         }
         try {
-            _list();
+            return _list();
         } catch (RecognitionException re) {
             falied = true;
             throw re;
@@ -95,6 +102,7 @@ public class BackTrackMemoParser extends BackTrackParser {
         Lexer lexer = new BackTrackLexer(args[0]);
 
         BackTrackMemoParser parser = new BackTrackMemoParser(lexer);
-        parser.stat();
+        AstNode parserTree = parser.stat();
+        System.out.println(parserTree);
     }
 }
