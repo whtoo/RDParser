@@ -150,6 +150,7 @@ public class BackTrackParser extends Parser {
 
     public static void main(String[] args) throws Exception {
         Lexer lexer = new BackTrackLexer(args[0]);
+        System.out.println(args[0]);
         BackTrackParser parser = new BackTrackParser(lexer);
         AstNode parserTree = parser.stat();
         System.out.print(parserTree);

@@ -27,7 +27,7 @@ public abstract class AstNode {
         this.childNodes = new ArrayList<>(3);
     }
 
-    // 定义计算综合属性synVal的值
+    // TODO 定义计算综合属性synVal的值
     public abstract void eval();
 
     public void addChildNode(AstNode childNode) {
@@ -59,7 +59,10 @@ public abstract class AstNode {
     public String typeName() {
         if(type == ASSIGNTYPE) {
             return "AssingNode";
-        } else if(type == STATTYPE){
+        } else if(type == LISTTYPE) {
+            return "ListNode";
+        }
+        else if(type == STATTYPE){
             return "StatNode";
         } else if(type == ElEMENTTEPE){
             return "ElementNode";
@@ -77,7 +80,6 @@ public abstract class AstNode {
     public String toString() {
         return "AstNode{" +
                 "token=" + token +
-                ", synVal='" + synVal + '\'' +
                 ", type=" + typeName() +
                 ", childNodes=" + childNodes +
                 '}';

@@ -22,14 +22,22 @@ public class ListLexer extends Lexer {
 
     @Override
     public Token nextToken() {
+        int startPos = this.p;
         while(c != EOF){
             switch (c) {
                 case ' ': case '\t': case '\n': case '\r': WS();continue;
-                case ',':consume();return new Token(COMMA,",");
-                case '[':consume();return new Token(LBRACK,"[");
-                case ']':consume();return new Token(RBRACK,"]");
+                case ',':consume();return new Token(COMMA,",",startPos,p);
+                case '[':consume();return new Token(LBRACK,"[",startPos,p);
+                case ']':consume();return new Token(RBRACK,"]",startPos,p);
                 default:
-                    if(isLETTER()) return NAME();
+                    /**
+                     * TODO 这里有两个引申问题：
+                     * 1. 如何实现 NAME: [a-zA-Z]([0-9]|[a-zA-z])*
+                     * 2. 如何实现 NAME 与 Keywords 做区分
+                     *      Etc: NAME := ifexp
+                     *           Keyword := if
+                     */
+                    if(isLETTER()) return NAME(startPos);
                     throw new Error("invalid character: "+c);
             }
         }
@@ -38,10 +46,15 @@ public class ListLexer extends Lexer {
     }
 
 
-    protected Token NAME() {
+    protected Token NAME(int pos) {
         StringBuilder buf = new StringBuilder();
+        /**
+         * 这里已经实现的是 NAME: [a-zA-Z]+
+         */
         do { buf.append(c);consume();} while (isLETTER());
-        return new Token(NAME,buf.toString());
+        Token nameToken = new Token(NAME,buf.toString());
+        nameToken.setSrcPos(pos,p);
+        return nameToken;
     }
 
     protected Boolean isLETTER() { return c >= 'a' && c <= 'z' || c>= 'A' && c<='Z';}

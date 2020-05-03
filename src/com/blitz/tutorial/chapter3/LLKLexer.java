@@ -12,15 +12,16 @@ public class LLKLexer extends ListLexer {
 
     @Override
     public Token nextToken() {
+        int startPos = this.p;
         while(c != EOF){
             switch (c) {
                 case ' ': case '\t': case '\n': case '\r': WS();continue;
-                case ',':consume();return new Token(COMMA,",");
-                case '[':consume();return new Token(LBRACK,"[");
-                case ']':consume();return new Token(RBRACK,"]");
-                case '=':consume();return new Token(EQUALS,"=");
+                case ',':consume();return new Token(COMMA,",",startPos,p);
+                case '[':consume();return new Token(LBRACK,"[",startPos,p);
+                case ']':consume();return new Token(RBRACK,"]",startPos,p);
+                case '=':consume();return new Token(EQUALS,"=",startPos,p);
                 default:
-                    if(isLETTER()) return NAME();
+                    if(isLETTER()) return NAME(startPos);
                     throw new Error("invalid character: "+c);
             }
         }
