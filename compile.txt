@@ -1,0 +1,2 @@
+javac -classpath /d/RDParser/src -d /d/RDParser/target *.java
+java -cp /d/RDParser/target com.blitz.tutorial.chapter4.BackTrackParser [a,b] = [a,b]
