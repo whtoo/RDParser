@@ -5,4 +5,5 @@ package com.blitz.tutorial.chapter6;
  */
 public interface IRuleApplication{
     Object eval(Matcher matcher);
+    String ruleName();
 }

@@ -23,4 +23,9 @@ public class Repetition implements IRuleApplication {
         }
         return ans;
     }
+
+    @Override
+    public String ruleName() {
+        return null;
+    }
 }

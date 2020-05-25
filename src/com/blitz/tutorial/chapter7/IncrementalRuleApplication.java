@@ -8,4 +8,9 @@ public class IncrementalRuleApplication implements IRuleApplication {
     public Object eval(Matcher matcher) {
         return null;
     }
+
+    @Override
+    public String ruleName() {
+        return null;
+    }
 }

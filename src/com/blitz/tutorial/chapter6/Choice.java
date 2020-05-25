@@ -13,10 +13,18 @@ public class Choice implements IRuleApplication {
         for (IRuleApplication exp : this.exps) {
             matcher.pos = origPos;
             Object cst = exp.eval(matcher);
+            if(exp.ruleName() != null) {
+                System.out.printf("eval rule %s \n", exp.ruleName());
+            }
             if (cst != null) {
                 return cst;
             }
         }
+        return null;
+    }
+
+    @Override
+    public String ruleName() {
         return null;
     }
 }

@@ -22,4 +22,9 @@ public class Sequence implements IRuleApplication {
         }
         return ans;
     }
+
+    @Override
+    public String ruleName() {
+        return null;
+    }
 }

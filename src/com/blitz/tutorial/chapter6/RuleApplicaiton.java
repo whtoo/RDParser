@@ -1,14 +1,14 @@
 package com.blitz.tutorial.chapter6;
 
 public class RuleApplicaiton implements IRuleApplication{
-    String ruleName;
+    String _ruleName;
     RuleApplicaiton(String ruleName) {
-        this.ruleName = ruleName;
+        this._ruleName = ruleName;
     }
 
     @Override
     public Object eval(Matcher matcher) {
-        String name = this.ruleName;
+        String name = this._ruleName;
         if(matcher.hasMemorizedResult(name)){
             return matcher.useMemorizedResult(name);
         } else {
@@ -17,5 +17,10 @@ public class RuleApplicaiton implements IRuleApplication{
             matcher.memorizeResult(originalPos,name,cst);
             return cst;
         }
+    }
+
+    @Override
+    public String ruleName() {
+        return this._ruleName;
     }
 }

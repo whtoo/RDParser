@@ -18,4 +18,9 @@ public class Terminal implements IRuleApplication {
         return this.str;
     }
 
+    @Override
+    public String ruleName() {
+        return null;
+    }
+
 }

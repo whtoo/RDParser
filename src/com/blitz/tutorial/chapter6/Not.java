@@ -15,4 +15,9 @@ public class Not implements IRuleApplication {
         }
         return null;
     }
+
+    @Override
+    public String ruleName() {
+        return null;
+    }
 }
