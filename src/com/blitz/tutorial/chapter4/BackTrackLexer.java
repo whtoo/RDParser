@@ -1,6 +1,5 @@
 package com.blitz.tutorial.chapter4;
 
-import com.blitz.tutorial.chapter2.ListLexer;
 import com.blitz.tutorial.chapter3.LLKLexer;
 
 public class BackTrackLexer extends LLKLexer {
