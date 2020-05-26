@@ -15,7 +15,7 @@ public class TestCase {
      * name -> [a-z]+
      */
     public static void main(String[] args) {
-        String subStr = "idStr=12";
+        String subStr = "idStr = 12";
 
         List charSet = new ArrayList();
         char start = 'a';
@@ -37,19 +37,20 @@ public class TestCase {
         Choice digitOpt = new Choice(digitSet);
         Choice charOpt = new Choice(charSet);
         Choice emptyOpt = new Choice(List.of(new Terminal("\t"),new Terminal("\n"),new Terminal(" ")));
-        Repetition whiteSpaces = new Repetition(emptyOpt);
+        Repetition whiteSp = new Repetition(emptyOpt);
         Map productionTable = new HashMap<String,IRuleApplication>(3);
         Repetition name = new Repetition(charOpt);
         Repetition digits = new Repetition(digitOpt);
         RuleApplicaiton assign = new RuleApplicaiton("assign");
         RuleApplicaiton idRule = new RuleApplicaiton("name");
-        RuleApplicaiton whitespaces = new RuleApplicaiton("whiteSpaces");
+        RuleApplicaiton whiteSpRule = new RuleApplicaiton("whiteSpaces");
         RuleApplicaiton digitsRule = new RuleApplicaiton("digits");
+        RuleApplicaiton digitRule = new RuleApplicaiton("digit");
         RuleApplicaiton lookAheadWhiteSpaces = new RuleApplicaiton("skipWhiteSpaces");
         /*
             TODO 当'WITHESPACES'规则在'ASSIGN'之前时,当句子里出现空格会导致解析失败
          */
-        Choice ruleA = new Choice(List.of(assign,idRule,whiteSpaces));
+        Choice ruleA = new Choice(List.of(assign,whiteSpRule,idRule));
         /*
             Start ->  ASSIGN | NAME | WITHESPACES
             ASSIGN -> NAME '=' DIGITS
@@ -58,11 +59,13 @@ public class TestCase {
             WITHESPACES -> ['\t''\n']+
          */
         productionTable.put("start",ruleA);
-        productionTable.put("assign",new Sequence(List.of(idRule,whiteSpaces,new Terminal("="),whiteSpaces,digitsRule)));
-        productionTable.put("digits",digits);
-        productionTable.put("name",name);
-        productionTable.put("whiteSpaces",whiteSpaces);
-        productionTable.put("skipWhiteSpaces",new Not(new Not(whitespaces)));
+        productionTable.put("assign",new Sequence(List.of(idRule,new RuleApplicaiton("whiteSp"),new Terminal("="),new RuleApplicaiton("whiteSp"),digitsRule)));
+        productionTable.put("digits",new Sequence(List.of(digitRule,digits)));
+        productionTable.put("digit",digitOpt);
+        productionTable.put("name",new Sequence(List.of(charOpt,name)));
+        productionTable.put("whiteSpaces",new Sequence(List.of(emptyOpt,whiteSp)));
+        productionTable.put("whiteSp",whiteSp);
+        productionTable.put("skipWhiteSpaces",new Not(new Not(whiteSpRule)));
 
         Matcher matcher = new Matcher(productionTable);
         Object result = matcher.match(subStr);

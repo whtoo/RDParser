@@ -2,6 +2,7 @@ package com.blitz.tutorial.chapter6;
 
 public class RuleApplicaiton implements IRuleApplication{
     String _ruleName;
+
     RuleApplicaiton(String ruleName) {
         this._ruleName = ruleName;
     }
@@ -14,7 +15,9 @@ public class RuleApplicaiton implements IRuleApplication{
         } else {
             Integer originalPos = matcher.pos;
             Object cst = matcher.rules.get(name).eval(matcher);
+
             matcher.memorizeResult(originalPos,name,cst);
+
             return cst;
         }
     }

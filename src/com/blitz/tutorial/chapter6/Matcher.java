@@ -31,7 +31,7 @@ public class Matcher {
             System.out.println("Please set up rules of application before matching!");
             return null;
         }
-        Object cst = this.rules.get("start").eval(this);
+        Object cst = new RuleApplicaiton("start").eval(this);
         if(this.pos == this.input.length()){
             return  cst;
         }
@@ -76,6 +76,7 @@ public class Matcher {
         }
         String debugStr = String.format("Compare with %s,%s",this.input.substring(this.pos,this.pos+1),c);
         System.out.println(debugStr);
+
         if(this.input.substring(this.pos,this.pos+1).equals(c)){
             this.pos++;
             return true;
