@@ -9,14 +9,20 @@ import java.util.Map;
 
 public class TestCase {
     /**
-     * Grammar:
-     * lists -> list lists
-     * list -> name (, name)*
-     * name -> [a-z]+
-     */
+            Start ->  ASSIGN
+            ASSIGN -> NAME {WITHESPACES} '=' {WITHESPACES} NUMBER ';'
+            DIGITS -> ['0'-'9']+
+            NAME -> ['a'-'z''A'-'Z']+
+            WITHESPACES -> ['\t''\n']+
+            NUMBER -> DIGITS {'.' DIGITS}
+     **/
     public static void main(String[] args) {
-        String subStr = "idStr = 12.2f;";
-
+        String subStr = "id = 12;";
+                /*"var x = 12;" +
+                "x+=78;" +
+                "if(x>12){" +
+                "x-=12;}" ;
+        */
         Range digitOpt = new Range("0","9");
         Choice charOpt = new Choice(List.of(new Range("a","z"),new Range("A","Z")));
         Choice emptyOpt = new Choice(List.of(new Terminal("\t"),new Terminal("\n"),new Terminal(" ")));
@@ -37,14 +43,7 @@ public class TestCase {
             DONE 重写语法规则，适应可能最长匹配模式优先
          */
         Choice ruleA = new Choice(List.of(assign,whiteSpRule,idRule,numRule));
-        /*
-            Start ->  ASSIGN | NAME | WITHESPACES | NUMBER
-            ASSIGN -> NAME {WITHESPACES} '=' {WITHESPACES} NUMBER ';'
-            DIGITS -> ['0'-'9']+
-            NAME -> ['a'-'z''A'-'Z']+
-            WITHESPACES -> ['\t''\n']+
-            NUMBER -> DIGITS {'.' DIGITS}
-         */
+
         productionTable.put("start",ruleA);
         productionTable.put("assign",new Sequence(
                 List.of(idRule,
