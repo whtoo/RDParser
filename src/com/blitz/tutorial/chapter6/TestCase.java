@@ -15,27 +15,10 @@ public class TestCase {
      * name -> [a-z]+
      */
     public static void main(String[] args) {
-        String subStr = "idStr = 12";
+        String subStr = "idStr = 12.2f;";
 
-        List charSet = new ArrayList();
-        char start = 'a';
-        char upperStart = 'A';
-        for (int i = 0; i < 26; i++) {
-            charSet.add(new Terminal(String.valueOf(start)));
-            charSet.add(new Terminal(String.valueOf(upperStart)));
-
-            start+=1;
-            upperStart+=1;
-        }
-        start = '0';
-        List digitSet = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            digitSet.add(new Terminal(String.valueOf(start)));
-            start+=1;
-        }
-
-        Choice digitOpt = new Choice(digitSet);
-        Choice charOpt = new Choice(charSet);
+        Range digitOpt = new Range("0","9");
+        Choice charOpt = new Choice(List.of(new Range("a","z"),new Range("A","Z")));
         Choice emptyOpt = new Choice(List.of(new Terminal("\t"),new Terminal("\n"),new Terminal(" ")));
         Repetition whiteSp = new Repetition(emptyOpt);
         Map productionTable = new HashMap<String,IRuleApplication>(3);
@@ -47,25 +30,39 @@ public class TestCase {
         RuleApplicaiton digitsRule = new RuleApplicaiton("digits");
         RuleApplicaiton digitRule = new RuleApplicaiton("digit");
         RuleApplicaiton lookAheadWhiteSpaces = new RuleApplicaiton("skipWhiteSpaces");
+        RuleApplicaiton floatRule = new RuleApplicaiton("floatRule");
+        RuleApplicaiton numRule = new RuleApplicaiton("numRule");
         /*
             TODO 当'WITHESPACES'规则在'ASSIGN'之前时,当句子里出现空格会导致解析失败
+            DONE 重写语法规则，适应可能最长匹配模式优先
          */
-        Choice ruleA = new Choice(List.of(assign,whiteSpRule,idRule));
+        Choice ruleA = new Choice(List.of(assign,whiteSpRule,idRule,numRule));
         /*
-            Start ->  ASSIGN | NAME | WITHESPACES
-            ASSIGN -> NAME '=' DIGITS
+            Start ->  ASSIGN | NAME | WITHESPACES | NUMBER
+            ASSIGN -> NAME {WITHESPACES} '=' {WITHESPACES} NUMBER ';'
             DIGITS -> ['0'-'9']+
             NAME -> ['a'-'z''A'-'Z']+
             WITHESPACES -> ['\t''\n']+
+            NUMBER -> DIGITS {'.' DIGITS}
          */
         productionTable.put("start",ruleA);
-        productionTable.put("assign",new Sequence(List.of(idRule,new RuleApplicaiton("whiteSp"),new Terminal("="),new RuleApplicaiton("whiteSp"),digitsRule)));
+        productionTable.put("assign",new Sequence(
+                List.of(idRule,
+                new RuleApplicaiton("whiteSp"),
+                        new Terminal("="),
+                        new RuleApplicaiton("whiteSp"),
+                        numRule,
+                        new RuleApplicaiton("whiteSp"),
+                        new Terminal(";"))
+                ));
         productionTable.put("digits",new Sequence(List.of(digitRule,digits)));
         productionTable.put("digit",digitOpt);
         productionTable.put("name",new Sequence(List.of(charOpt,name)));
         productionTable.put("whiteSpaces",new Sequence(List.of(emptyOpt,whiteSp)));
         productionTable.put("whiteSp",whiteSp);
         productionTable.put("skipWhiteSpaces",new Not(new Not(whiteSpRule)));
+        productionTable.put("floatRule",new Option(new Sequence(List.of(new Terminal("."),new Option(digitRule),new Option(new Terminal("f"))))));
+        productionTable.put("numRule",new Sequence(List.of(digitsRule,floatRule)));
 
         Matcher matcher = new Matcher(productionTable);
         Object result = matcher.match(subStr);
