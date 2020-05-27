@@ -24,12 +24,13 @@ public class Option implements IRuleApplication {
         int matchCount = 0;
         List<Object> ans = new ArrayList(2);
         while (true){
+            int origPos = matcher.pos;
             Object cst = this.expr.eval(matcher);
-
             if (cst != null){
                 ans.add(cst);
                 matchCount++;
             } else {
+                matcher.pos = origPos;
                 break;
             }
 

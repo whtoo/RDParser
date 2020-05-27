@@ -28,6 +28,15 @@ public class RuleApplicaiton implements IRuleApplication{
                     List castCst = (List) cst;
                     List flatCst = (List) castCst;
                     System.out.println(String.format("rule{%s} produce %s", name, flatCst));
+                    if(name.equals("digits")){
+
+                    } else if(name.equals("floatRule")){
+
+                    } else if(name.equals("numRule")) {
+
+                    } else if(name.equals("name")) {
+
+                    }
                 }
             }
             matcher.memorizeResult(originalPos,name,cst);

@@ -1,5 +1,7 @@
 package com.blitz.tutorial.chapter6;
 
+import com.blitz.tutorial.chapter5.ast.AstNode;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ public class Matcher {
      */
     protected Map<Integer, Map<String,Object>> memoTable;
 
+    protected Map<Integer,Map<String, AstNode>> memoASTree;
     public Matcher(Map<String,IRuleApplication> rules) {
         this.rules = rules;
     }
@@ -25,6 +28,8 @@ public class Matcher {
         this.input = input;
         this.pos = 0;
         this.memoTable = new HashMap<>();
+        this.memoASTree = new HashMap<>();
+
         // TODO cst结构需要修改成tree node
         // 所有的规则都必须从start开始
         if(this.rules == null || this.rules.size() == 0) {
@@ -46,13 +51,13 @@ public class Matcher {
 
     protected void memorizeResult(Integer pos,String ruleName, Object cst){
         Map<String, Object> col = this.memoTable.computeIfAbsent(pos, k -> new HashMap<>());
-
         if(cst != null){
             col.put(ruleName,new HashMap(Map.of("cst",cst,"nextPos",this.pos)));
         } else {
             HashMap<String,Object> emptyResult = new HashMap<>();
             emptyResult.put("cst",null);
             col.put(ruleName,emptyResult);
+
         }
     }
 
