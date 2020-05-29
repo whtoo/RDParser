@@ -21,10 +21,22 @@ public class Repetition implements IRuleApplication {
                 matcher.pos = origPos;
                 break;
             } else {
-                ans.add(cst);
+                if (!exp.shouldSkip()){
+                    ans.add(cst);
+                }
             }
         }
         return ans;
+    }
+
+    /**
+     * 测试是否跳过当前模式
+     *
+     * @return
+     */
+    @Override
+    public Boolean shouldSkip() {
+        return false;
     }
 
     @Override

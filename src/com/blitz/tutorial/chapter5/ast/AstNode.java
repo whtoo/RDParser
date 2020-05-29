@@ -79,9 +79,7 @@ public abstract class AstNode {
     @Override
     public String toString() {
         return "AstNode{" +
-                "token=" + token +
-                ", type=" + typeName() +
-                ", childNodes=" + childNodes +
+                "token=" + token+
                 '}';
     }
 }

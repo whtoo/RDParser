@@ -2,9 +2,8 @@ package com.blitz.tutorial.chapter5.ast;
 
 import com.blitz.tutorial.common.Token;
 
-public class NameNode extends AstNode {
-
-    public NameNode(Token token, int type) {
+public class ExprNode extends AstNode {
+    public ExprNode(Token token, int type) {
         super(token, type);
     }
 

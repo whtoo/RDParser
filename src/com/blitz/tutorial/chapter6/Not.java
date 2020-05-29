@@ -16,6 +16,16 @@ public class Not implements IRuleApplication {
         return null;
     }
 
+    /**
+     * 测试是否跳过当前模式
+     *
+     * @return
+     */
+    @Override
+    public Boolean shouldSkip() {
+        return false;
+    }
+
     @Override
     public String ruleName() {
         return null;

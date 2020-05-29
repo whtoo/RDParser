@@ -4,9 +4,17 @@ import java.util.List;
 
 public class Choice implements IRuleApplication {
     List<IRuleApplication> exps;
+    Boolean shouldSkip;
+
     Choice(List<IRuleApplication> exps){
-        this.exps = exps;
+        this(exps,false);
     }
+
+    Choice(List<IRuleApplication> exps,Boolean shouldSkip){
+        this.exps = exps;
+        this.shouldSkip = shouldSkip;
+    }
+
     @Override
     public Object eval(Matcher matcher) {
         int origPos = matcher.pos;
@@ -22,6 +30,16 @@ public class Choice implements IRuleApplication {
             }
         }
         return null;
+    }
+
+    /**
+     * 测试是否跳过当前模式
+     *
+     * @return
+     */
+    @Override
+    public Boolean shouldSkip() {
+        return shouldSkip;
     }
 
     @Override

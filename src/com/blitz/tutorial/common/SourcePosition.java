@@ -9,6 +9,10 @@ public class SourcePosition {
      * 相对开始位置的偏移
      */
     int offset;
+    /**
+     * 行号
+     */
+    int lineNo;
 
     public SourcePosition(){
         this.startPos = 0;

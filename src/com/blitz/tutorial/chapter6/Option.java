@@ -1,5 +1,6 @@
 package com.blitz.tutorial.chapter6;
 
+import javax.imageio.event.IIOReadUpdateListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,15 @@ import java.util.List;
  */
 public class Option implements IRuleApplication {
     IRuleApplication expr;
-
+    Boolean shouldSkip;
 
     Option(IRuleApplication rules){
-        this.expr = rules;
+        this(rules,false);
     }
-
+    Option(IRuleApplication rules,Boolean shouldSkip) {
+        this.expr = rules;
+        this.shouldSkip = shouldSkip;
+    }
     /**
      *
      * @param matcher
@@ -30,6 +34,7 @@ public class Option implements IRuleApplication {
                 ans.add(cst);
                 matchCount++;
             } else {
+
                 matcher.pos = origPos;
                 break;
             }
@@ -38,6 +43,16 @@ public class Option implements IRuleApplication {
         }
 
         return ans;
+    }
+
+    /**
+     * 测试是否跳过当前模式
+     *
+     * @return
+     */
+    @Override
+    public Boolean shouldSkip() {
+        return this.shouldSkip;
     }
 
     @Override

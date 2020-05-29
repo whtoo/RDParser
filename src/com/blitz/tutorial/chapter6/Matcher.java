@@ -9,6 +9,7 @@ import java.util.Map;
 public class Matcher {
     protected Map<String,IRuleApplication> rules;
     protected Integer pos;
+    protected Boolean isLexical;
     /**
      * 输入的源文件缓冲
      */
@@ -22,6 +23,7 @@ public class Matcher {
     protected Map<Integer,Map<String, AstNode>> memoASTree;
     public Matcher(Map<String,IRuleApplication> rules) {
         this.rules = rules;
+        this.isLexical = false;
     }
 
     protected Object match(String input) {
@@ -87,5 +89,9 @@ public class Matcher {
             return true;
         }
         return false;
+    }
+
+    protected IRuleApplication skipActions() {
+        return this.rules.get("skipWhiteSpaces");
     }
 }

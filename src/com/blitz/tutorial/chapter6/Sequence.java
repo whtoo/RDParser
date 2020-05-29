@@ -11,16 +11,37 @@ public class Sequence implements IRuleApplication {
     @Override
     public Object eval(Matcher matcher) {
         List<Object> ans = new ArrayList<>(3);
-        for (IRuleApplication exp : this.exps) {
+        for (int i =0;i<this.exps.size();) {
+
+            while (!matcher.isLexical && matcher.skipActions().eval(matcher) != null){
+
+            }
+
+            IRuleApplication exp = this.exps.get(i);
             Object cst = exp.eval(matcher);
             if (cst == null) {
                 return null;
             }
+
             if (!(exp instanceof Not)) {
-                ans.add(cst);
+                //此时表示expr成功解析
+                i++;
+                if (!exp.shouldSkip()){
+                    ans.add(cst);
+                }
             }
         }
         return ans;
+    }
+
+    /**
+     * 测试是否跳过当前模式
+     *
+     * @return
+     */
+    @Override
+    public Boolean shouldSkip() {
+        return false;
     }
 
     @Override
