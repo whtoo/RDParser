@@ -29,6 +29,8 @@ public class Sequence implements IRuleApplication {
                 if (!exp.shouldSkip()){
                     ans.add(cst);
                 }
+            } else {
+                i++;
             }
         }
         return ans;
