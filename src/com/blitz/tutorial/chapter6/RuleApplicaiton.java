@@ -15,21 +15,24 @@ public class RuleApplicaiton implements IRuleApplication{
     Boolean shouldSkip;
     Boolean isLexical;
     IReduction reduction;
-    RuleApplicaiton(String ruleName) {
+    RuleApplicaiton(String ruleName) throws Exception {
         this(ruleName,null);
     }
-    RuleApplicaiton(String ruleName,IReduction reduction) {
+    RuleApplicaiton(String ruleName,IReduction reduction) throws Exception {
         this(ruleName,reduction,false);
     }
 
-    RuleApplicaiton(String ruleName,IReduction reduction,Boolean shouldSkip){
+    RuleApplicaiton(String ruleName,IReduction reduction,Boolean shouldSkip)throws Exception{
         this(ruleName,reduction,shouldSkip,false);
     }
-    RuleApplicaiton(String ruleName,IReduction reduction,Boolean shouldSkip,Boolean isLexical){
+    RuleApplicaiton(String ruleName,IReduction reduction,Boolean shouldSkip,Boolean isLexical) throws Exception {
         this._ruleName = ruleName;
         this.shouldSkip = shouldSkip;
         this.isLexical = isLexical;
         this.reduction = reduction;
+        if(isLexical == false && reduction == null){
+            throw new Exception("Undefined reduction for "+ruleName);
+        }
     }
     @Override
     public Object eval(Matcher matcher) {
