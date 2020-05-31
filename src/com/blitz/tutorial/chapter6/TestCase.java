@@ -1,17 +1,18 @@
 package com.blitz.tutorial.chapter6;
 
-import org.antlr.v4.tool.Rule;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.blitz.tutorial.chapter6.Terminal.*;
+
 public class TestCase {
     /**
             START -> [ STMT ]opt (; | EOL)
             STMT -> EXPR { EXPR }
-            EXPR -> FACTOR {OP FACTOR}
+            EXPR -> NAME "=" EXPR1 | NAME OP_ASSIGN EXPR1 | EXPR1
+            EXPR1 -> FACTOR {OP FACTOR}
             FACTOR -> NUMBER | NAME | "(" EXPR ")"
             DIGITS -> ['0'-'9']+
             NAME -> ['a'-'z''A'-'Z']+
@@ -19,27 +20,21 @@ public class TestCase {
             NUMBER -> DIGITS [ '.' DIGITS ]
      **/
     public static void main(String[] args) {
-        int a = +1,b = 1,c = 2;
-        a = b += c=1;
-        System.out.printf("a:%d b:%d c:%d \n",a,b,c);
-        String subStr = "a = 1;b = 2;c = a + b;";
+
+        String subStr = "a = 1;b = 2;c = a + b * (c*(x+(1/2 % 2)));";
         Range digitSet = new Range("0","9");
         Choice charSet = new Choice(List.of(new Range("a","z"),new Range("A","Z")));
         Choice emptySet = new Choice(List.of(new Terminal("\t"),new Terminal("\n"),new Terminal(" ")));
         // Binding with operator analysis
         Choice opSet = new Choice(List.of(
-                new Terminal("+"),
-                new Terminal("="),
-                new Terminal("-"),
-                new Terminal("*"),
-                new Terminal("/"),
-                new Terminal("<"),
-                new Terminal(">"),
-                new Terminal("="),
-                new Terminal("<="),
-                new Terminal(">=")));
-        //Binding with reserved symbol table
+                token("="),
+                token("+"),
+                token("-"),
+                token("*"),
+                token("/"),
+                token("%")));
 
+        //Binding with reserved symbol table
 
         Repetition whiteSp = new Repetition(emptySet);
         Map productionTable = new HashMap<String,IRuleApplication>(3);
@@ -60,11 +55,11 @@ public class TestCase {
         /*
             DONE 重写语法规则，适应可能最长匹配模式优先
          */
-        Repetition startRule = new Repetition(new Sequence(List.of(exprRule,new Terminal(";",true))));
+        Repetition startRule = new Repetition(new Sequence(List.of(exprRule,sep(";"))));
 
         productionTable.put("start",startRule);
         productionTable.put("exprRule",new Sequence(List.of(factorRule,new Repetition(new Sequence(List.of(opRule,factorRule))))));
-        productionTable.put("factorRule",new Choice(List.of(idRule,numRule,new Sequence(List.of(new Terminal("(",true),exprRule,new Terminal(")",true))))));
+        productionTable.put("factorRule",new Choice(List.of(idRule,numRule,new Sequence(List.of(sep("("),exprRule,sep(")"))))));
         productionTable.put("digits",new Sequence(List.of(digitRule,digits)));
         productionTable.put("digit",digitSet);
         productionTable.put("name",new Sequence(List.of(charSet,name)));

@@ -89,10 +89,10 @@ public class RuleApplicaiton implements IRuleApplication{
             } else {
                 return new NumberNode(new Token(TokenEnum.INT.ordinal(),numLiteral,start,end),AstNode.LEAFLTYPE);
             }
-        } else if(type.equals("assign")) {
+        } else if(type.equals("exprRule")) {
 
 
-        } else if(type.equals("whiteSp")) {
+        } else if(type.equals("factorRule")){
 
         } else if(type.equals("digits")) {
             Object digits = parserTree.stream().flatMap(x -> (x instanceof List)?((List) x).stream():Stream.of(x)).reduce((x, y) -> String.valueOf(x).concat(String.valueOf(y))).orElse("");
