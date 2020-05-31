@@ -16,8 +16,18 @@ public class TestCase {
             START -> [ STMT ]opt (; | EOL)
             STMT -> EXPR { EXPR }
             EXPR -> TERM "=" EXPR1 | TERM OP_ASSIGN EXPR1 | EXPR10
-            EXPR10 -> FACTOR {OP FACTOR}
-            TERM ->
+            EXPR10 -> EXPR9 ["?" EXPR : EXPR10()]
+            EXPR9 ->
+            EXPR8 ->
+            EXPR7
+            EXPR6
+            EXPR5
+            EXPR4
+            EXPR3
+            EXPR2
+            EXPR1 -> TERM ("*" TERM | "/" TERM | "%" TERM)
+            TERM -> &("(" TYPE) "(" TYPE ")" TERM | UNARY
+            UNARY ->
             FACTOR -> NUMBER | NAME | "(" EXPR ")"
             DIGITS -> ['0'-'9']+
             NAME -> ['a'-'z''A'-'Z']+

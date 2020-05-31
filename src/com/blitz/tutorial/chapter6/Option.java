@@ -39,7 +39,7 @@ public class Option implements IRuleApplication {
                 break;
             }
 
-            if (matchCount > 1) return null;;
+            if (matchCount > 1) return null;
         }
 
         return ans;

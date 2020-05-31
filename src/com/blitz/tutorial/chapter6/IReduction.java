@@ -8,5 +8,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface IReduction {
-    public Object reduceParser(RuleApplicaiton rule, int startPos, int offset, Object cst);
+    Object reduceParser(RuleApplicaiton rule, int startPos, int offset, Object cst);
 }
