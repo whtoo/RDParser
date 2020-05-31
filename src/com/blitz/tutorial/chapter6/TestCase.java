@@ -18,8 +18,9 @@ public class TestCase {
     /**
             START -> [ STMT ]opt (; | EOL)
             STMT -> EXPR { EXPR }
-            EXPR -> NAME "=" EXPR1 | NAME OP_ASSIGN EXPR1 | EXPR1
-            EXPR1 -> FACTOR {OP FACTOR}
+            EXPR -> TERM "=" EXPR1 | TERM OP_ASSIGN EXPR1 | EXPR10
+            EXPR10 -> FACTOR {OP FACTOR}
+            TERM ->
             FACTOR -> NUMBER | NAME | "(" EXPR ")"
             DIGITS -> ['0'-'9']+
             NAME -> ['a'-'z''A'-'Z']+
@@ -28,7 +29,7 @@ public class TestCase {
      **/
     public static void main(String[] args) throws Exception {
 
-        String subStr = "a = 18.1 + 12.f;";
+        String subStr = "a = 12123.f    ;";
         Range digitSet = new Range("0","9");
         Choice charSet = new Choice(List.of(new Range("a","z"),new Range("A","Z")));
         Choice emptySet = new Choice(List.of(new Terminal("\t"),new Terminal("\n"),new Terminal(" ")));
@@ -52,9 +53,9 @@ public class TestCase {
         删掉两条冗余规则，因为其在推导中无用
          */
         RuleApplicaiton exprRule = new RuleApplicaiton("exprRule",((rule, startPos, offset, cst) -> {
+            List cstStream = (List) cst;
 
-            return  cst;
-
+            return cst;
         }));
         RuleApplicaiton factorRule = new RuleApplicaiton("factorRule",((rule, startPos, offset, cst) -> {
             if(cst instanceof Token){
@@ -71,16 +72,16 @@ public class TestCase {
             return  cst;
         }));
         RuleApplicaiton idRule = new RuleApplicaiton("name", ((rule, startPos, offset, cst) -> {
-            return new Token(TokenEnum.IDENTIFIER.ordinal(),cst.toString().trim(),startPos,offset);
+            return new Token(TokenEnum.IDENTIFIER.ordinal(),cst.toString(),startPos,offset);
         }), false, true);
         RuleApplicaiton digitsRule = new RuleApplicaiton("digits",null,false,true);
         RuleApplicaiton digitRule = new RuleApplicaiton("digit",null,false,true);
         RuleApplicaiton floatRule = new RuleApplicaiton("floatRule",null,false,true);
         RuleApplicaiton numRule = new RuleApplicaiton("numRule",((rule, startPos, offset, cst) -> {
             if(cst.toString().matches("\\.|f")){
-                return new Token(TokenEnum.FLOAT.ordinal(),cst.toString().trim(),startPos,offset);
+                return new Token(TokenEnum.FLOAT.ordinal(),cst.toString(),startPos,offset);
             } else {
-                return new Token(TokenEnum.INT.ordinal(),cst.toString().trim(),startPos,offset);
+                return new Token(TokenEnum.INT.ordinal(),cst.toString(),startPos,offset);
             }
         }),false, true);
         RuleApplicaiton opRule = new RuleApplicaiton("opRule",((rule, startPos, offset, cst) -> {

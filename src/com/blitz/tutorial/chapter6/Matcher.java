@@ -26,7 +26,7 @@ public class Matcher {
         this.isLexical = false;
     }
 
-    protected Object match(String input) {
+    protected Object match(String input) throws Exception {
         this.input = input;
         this.pos = 0;
         this.memoTable = new HashMap<>();
@@ -38,7 +38,9 @@ public class Matcher {
             System.out.println("Please set up rules of application before matching!");
             return null;
         }
-        Object cst = new RuleApplicaiton("start").eval(this);
+        Object cst = new RuleApplicaiton("start",(rule,start,offset,parserTree)->{
+            return parserTree;
+        }).eval(this);
         if(this.pos == this.input.length()){
             return  cst;
         }

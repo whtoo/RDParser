@@ -14,7 +14,7 @@ public class Sequence implements IRuleApplication {
         for (int i =0;i<this.exps.size();) {
 
             while (!matcher.isLexical && matcher.skipActions().eval(matcher) != null){
-
+                System.out.println(i);
             }
 
             IRuleApplication exp = this.exps.get(i);

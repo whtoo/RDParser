@@ -41,13 +41,12 @@ public class RuleApplicaiton implements IRuleApplication{
             return matcher.useMemorizedResult(name);
         } else {
             Integer originalPos = matcher.pos;
-            IRuleApplication ruleApplication = matcher.rules.get(name);
-            if(ruleApplication instanceof RuleApplicaiton) {
-                RuleApplicaiton ruleApplicaitonRef = (RuleApplicaiton)ruleApplication;
-                matcher.isLexical = ruleApplicaitonRef.isLexicalDef();
-            }
 
-            Object cst = ruleApplication.eval(matcher);
+            IRuleApplication ruleApplicaiton = matcher.rules.get(name);
+            Boolean isLexicalBk = matcher.isLexical;
+            matcher.isLexical = this.isLexicalDef();
+
+            Object cst = ruleApplicaiton.eval(matcher);
 
             if(cst != null) {
                 /*
@@ -69,7 +68,7 @@ public class RuleApplicaiton implements IRuleApplication{
                }
             }
             matcher.memorizeResult(originalPos,name,cst);
-
+            matcher.isLexical = isLexicalBk;
             return cst;
         }
     }
