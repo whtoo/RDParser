@@ -32,7 +32,7 @@ public class Matcher {
         this.memoTable = new HashMap<>();
         this.memoASTree = new HashMap<>();
 
-        // TODO cst结构需要修改成tree node
+        // DONE cst结构需要修改成tree node
         // 所有的规则都必须从start开始
         if(this.rules == null || this.rules.size() == 0) {
             System.out.println("Please set up rules of application before matching!");

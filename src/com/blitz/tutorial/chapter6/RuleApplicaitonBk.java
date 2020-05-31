@@ -43,7 +43,7 @@ public class RuleApplicaitonBk implements IRuleApplication{
 
             if(cst != null) {
                 /*
-                TODO 增加语义动作(Semantic actions)
+                DONE 增加语义动作(Semantic actions)
                 DONE 增加skip并实现规约
                  */
                 if(cst instanceof List){
