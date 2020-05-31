@@ -1,13 +1,10 @@
 package com.blitz.tutorial.chapter6;
 
-import com.blitz.stone.ast.ASTree;
-import com.blitz.stone.ast.Name;
-import com.blitz.tutorial.chapter5.ast.AstNode;
+
 import com.blitz.tutorial.chapter5.ast.IdentifierNode;
 import com.blitz.tutorial.chapter5.ast.NumberNode;
 import com.blitz.tutorial.common.Token;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +74,7 @@ public class TestCase {
         RuleApplicaiton digitsRule = new RuleApplicaiton("digits",null,false,true);
         RuleApplicaiton digitRule = new RuleApplicaiton("digit",null,false,true);
         RuleApplicaiton floatRule = new RuleApplicaiton("floatRule",null,false,true);
+        RuleApplicaiton skipRule = new RuleApplicaiton("skipWhiteSpaces",(rule,startPos,offset,cst)-> cst);
         RuleApplicaiton numRule = new RuleApplicaiton("numRule",((rule, startPos, offset, cst) -> {
             if(cst.toString().matches("\\.|f")){
                 return new Token(TokenEnum.FLOAT.ordinal(),cst.toString(),startPos,offset);
@@ -100,6 +98,7 @@ public class TestCase {
         productionTable.put("name",new Sequence(List.of(charSet,name)));
         productionTable.put("whiteSpaces",new Sequence(List.of(emptySet,whiteSp)));
         productionTable.put("skipWhiteSpaces",new Skip(whiteSp));
+        productionTable.put("skipRule",skipRule);
         productionTable.put("floatRule",new Option(new Sequence(List.of(new Terminal("."),new Option(digitsRule),new Option(new Terminal("f"))))));
         productionTable.put("numRule",new Sequence(List.of(lookAhead,new Option(digitsRule),floatRule)));
         productionTable.put("opRule",opSet);

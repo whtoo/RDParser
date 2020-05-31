@@ -94,6 +94,6 @@ public class Matcher {
     }
 
     protected IRuleApplication skipActions() {
-        return this.rules.get("skipWhiteSpaces");
+        return this.rules.get("skipRule");
     }
 }

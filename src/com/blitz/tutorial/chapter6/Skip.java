@@ -17,7 +17,9 @@ public class Skip implements IRuleApplication {
     @Override
     public Object eval(Matcher matcher) {
         int start = matcher.pos;
+
         Object cst = this.epxr.eval(matcher);
+
         System.out.println(String.format("skip from %s to %s",start,matcher.pos));
         if(cst instanceof List && ((List) cst).isEmpty()){
             cst = null;
