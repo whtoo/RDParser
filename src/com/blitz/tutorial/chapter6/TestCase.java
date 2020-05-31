@@ -26,7 +26,7 @@ public class TestCase {
             WHITESPACES -> ['\t'' ''\n']+
             NUMBER -> DIGITS [ '.' DIGITS ]
      **/
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         String subStr = "a = 18.1 + 12.f;";
         Range digitSet = new Range("0","9");
