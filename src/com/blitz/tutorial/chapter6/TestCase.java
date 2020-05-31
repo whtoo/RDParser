@@ -1,5 +1,12 @@
 package com.blitz.tutorial.chapter6;
 
+import com.blitz.stone.ast.ASTree;
+import com.blitz.stone.ast.Name;
+import com.blitz.tutorial.chapter5.ast.AstNode;
+import com.blitz.tutorial.chapter5.ast.IdentifierNode;
+import com.blitz.tutorial.chapter5.ast.NumberNode;
+import com.blitz.tutorial.common.Token;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +28,7 @@ public class TestCase {
      **/
     public static void main(String[] args) {
 
-        String subStr = "a = 1;b = 2;c = a + b * (c*(x+(1/2 % 2)));";
+        String subStr = "a = 18.1 + 12.f;";
         Range digitSet = new Range("0","9");
         Choice charSet = new Choice(List.of(new Range("a","z"),new Range("A","Z")));
         Choice emptySet = new Choice(List.of(new Terminal("\t"),new Terminal("\n"),new Terminal(" ")));
@@ -44,14 +51,41 @@ public class TestCase {
         /*
         删掉两条冗余规则，因为其在推导中无用
          */
-        RuleApplicaiton exprRule = new RuleApplicaiton("exprRule");
-        RuleApplicaiton factorRule = new RuleApplicaiton("factorRule");
-        RuleApplicaiton idRule = new RuleApplicaiton("name",false,true);
-        RuleApplicaiton digitsRule = new RuleApplicaiton("digits",false,true);
-        RuleApplicaiton digitRule = new RuleApplicaiton("digit",false,true);
-        RuleApplicaiton floatRule = new RuleApplicaiton("floatRule",false,true);
-        RuleApplicaiton numRule = new RuleApplicaiton("numRule",false,true);
-        RuleApplicaiton opRule = new RuleApplicaiton("opRule",false,true);
+        RuleApplicaiton exprRule = new RuleApplicaiton("exprRule",((rule, startPos, offset, cst) -> {
+
+            return  cst;
+
+        }));
+        RuleApplicaiton factorRule = new RuleApplicaiton("factorRule",((rule, startPos, offset, cst) -> {
+            if(cst instanceof Token){
+                Token castToken = (Token)cst;
+                if(castToken.type == TokenEnum.IDENTIFIER.ordinal()){
+                    return new IdentifierNode(castToken);
+                } else if(castToken.type == TokenEnum.INT.ordinal()){
+                    return new NumberNode(castToken);
+                } else if(castToken.type == TokenEnum.FLOAT.ordinal()){
+                    return new NumberNode(castToken);
+                }
+            }
+
+            return  cst;
+        }));
+        RuleApplicaiton idRule = new RuleApplicaiton("name", ((rule, startPos, offset, cst) -> {
+            return new Token(TokenEnum.IDENTIFIER.ordinal(),cst.toString().trim(),startPos,offset);
+        }), false, true);
+        RuleApplicaiton digitsRule = new RuleApplicaiton("digits",null,false,true);
+        RuleApplicaiton digitRule = new RuleApplicaiton("digit",null,false,true);
+        RuleApplicaiton floatRule = new RuleApplicaiton("floatRule",null,false,true);
+        RuleApplicaiton numRule = new RuleApplicaiton("numRule",((rule, startPos, offset, cst) -> {
+            if(cst.toString().matches("\\.|f")){
+                return new Token(TokenEnum.FLOAT.ordinal(),cst.toString().trim(),startPos,offset);
+            } else {
+                return new Token(TokenEnum.INT.ordinal(),cst.toString().trim(),startPos,offset);
+            }
+        }),false, true);
+        RuleApplicaiton opRule = new RuleApplicaiton("opRule",((rule, startPos, offset, cst) -> {
+            return new Token(TokenEnum.IDENTIFIER.ordinal(),cst.toString(),startPos,offset);
+        }),false,true);
         /*
             DONE 重写语法规则，适应可能最长匹配模式优先
          */

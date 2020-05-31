@@ -13,6 +13,10 @@ public class NumberNode extends AstNode {
         token.setSrcPos(start,end);
     }
 
+    public NumberNode(Token token) {
+        super(token,AstNode.LEAFLTYPE);
+    }
+
     @Override
     public void eval() {
 

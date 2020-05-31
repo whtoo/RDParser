@@ -8,7 +8,7 @@ public class AssignNode extends AstNode {
     AstNode operator;
 
     public AssignNode() {
-        super(null, AstNode.ASSIGNTYPE);
+        super(null, AstNode.ElEMENTTEPE);
     }
 
     @Override

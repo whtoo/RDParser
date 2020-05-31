@@ -4,5 +4,6 @@ public enum TokenEnum {
     INT,
     FLOAT,
     DOUBLE,
-    STRING
+    STRING,
+    IDENTIFIER
 }
