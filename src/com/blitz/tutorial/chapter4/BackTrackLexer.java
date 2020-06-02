@@ -1,6 +1,7 @@
 package com.blitz.tutorial.chapter4;
 
 import com.blitz.tutorial.chapter3.LLKLexer;
+import com.blitz.tutorial.chapter6.TokenEnum;
 
 public class BackTrackLexer extends LLKLexer {
     public BackTrackLexer(String input) {
@@ -8,22 +9,20 @@ public class BackTrackLexer extends LLKLexer {
     }
 
     @Override
-    public String getTokenName(int tokenType) {
+    public String getTokenName(TokenEnum tokenType) {
         switch (tokenType) {
-            case 4:
+            case LBRACK:
                 return "LBRACK";
-            case 5:
+            case RBRACK:
                 return "RBRACK";
-            case -1:
-                return "EOF";
-            case 6:
+            case EQUALS:
                 return "EQUALS";
-            case 2:
+            case NAME:
                 return "NAME";
-            case 3:
+            case COMMA:
                 return "COMMA";
             default:
-                return "None";
+                return "EOF";
         }
     }
 }

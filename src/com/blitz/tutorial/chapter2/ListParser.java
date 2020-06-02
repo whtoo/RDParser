@@ -2,6 +2,7 @@ package com.blitz.tutorial.chapter2;
 
 import com.blitz.tutorial.common.Lexer;
 import com.blitz.tutorial.common.Parser;
+import static com.blitz.tutorial.chapter6.TokenEnum.*;
 
 import java.util.List;
 
@@ -17,28 +18,28 @@ public class ListParser extends Parser {
     }
     /** list : '[' elements ']' */
     public void list() {
-        match(ListLexer.LBRACK);
+        match(LBRACK);
         elements();
-        match(ListLexer.RBRACK);
+        match(RBRACK);
 
     }
     /** elements : element (',', element)* */
     void elements() {
         element();
-        while (lookahead.type == ListLexer.COMMA) {
-            match(ListLexer.COMMA);
+        while (lookahead.type == COMMA) {
+            match(COMMA);
             element();
         }
     }
 
     void element() {
-        if(lookahead.type == ListLexer.NAME) NAME();
-        else if(lookahead.type == ListLexer.LBRACK) list();
+        if(lookahead.type == NAME) NAME();
+        else if(lookahead.type == LBRACK) list();
         else throw  new Error("expecting name or list ; found " + lookahead);
     }
 
     void NAME() {
-        match(ListLexer.NAME);
+        match(NAME);
     }
 
     public static void main(String[] args) {

@@ -34,4 +34,9 @@ public class Range implements IRuleApplication {
     public String ruleName() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "<"+this.start+","+this.end+">";
+    }
 }

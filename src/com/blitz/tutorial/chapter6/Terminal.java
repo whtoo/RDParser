@@ -49,4 +49,8 @@ public class Terminal implements IRuleApplication {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "\'"+this.str+"\'";
+    }
 }

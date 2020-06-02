@@ -2,6 +2,9 @@ package com.blitz.tutorial.chapter3;
 
 import com.blitz.tutorial.chapter2.ListLexer;
 import com.blitz.tutorial.chapter2.ListParser;
+import static com.blitz.tutorial.chapter6.TokenEnum.*;
+
+import com.blitz.tutorial.chapter6.TokenEnum;
 import com.blitz.tutorial.common.Lexer;
 import com.blitz.tutorial.common.Parser;
 import com.blitz.tutorial.common.Token;
@@ -25,14 +28,14 @@ public class LLKParser  {
     }
 
     public Token LT(int i) {return lookahead[(p+i-1)%k];}
-    public int LA(int i) {return LT(i).type;}
+    public TokenEnum LA(int i) {return LT(i).type;}
 
     public  void consume() {
         lookahead[p] = input.nextToken();
         p = (p+1) % k;
     }
 
-    public void match(int x) {
+    public void match(TokenEnum x) {
         if (LA(1) == x) {
             System.out.println(lookahead[p]);
             consume();
@@ -42,32 +45,32 @@ public class LLKParser  {
 
     /** list : '[' elements ']' */
     public void list() {
-        match(ListLexer.LBRACK);
+        match(LBRACK);
         elements();
-        match(ListLexer.RBRACK);
+        match(RBRACK);
 
     }
     /** elements : element (',', element)* */
     void elements() {
         element();
-        while (LA(1) == ListLexer.COMMA) {
-            match(ListLexer.COMMA);
+        while (LA(1) == COMMA) {
+            match(COMMA);
             element();
         }
     }
 
     void NAME() {
-        match(ListLexer.NAME);
+        match(NAME);
     }
 
     void element() {
-        if(LA(1) == LLKLexer.NAME && LA(2) == LLKLexer.EQUALS) {
-            match(LLKLexer.NAME);
-            match(LLKLexer.EQUALS);
-            match(LLKLexer.NAME);
+        if(LA(1) == NAME && LA(2) == EQUALS) {
+            match(NAME);
+            match(EQUALS);
+            match(NAME);
         }
-        else if(LA(1) == LLKLexer.NAME) match(LLKLexer.NAME);
-        else if(LA(1) == LLKLexer.LBRACK) list();
+        else if(LA(1) == NAME) match(NAME);
+        else if(LA(1) == LBRACK) list();
 
     }
 

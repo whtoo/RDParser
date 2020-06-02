@@ -80,11 +80,8 @@ public class Matcher {
 
     protected boolean consume(String c){
         if(this.pos == this.input.length()) {
-//            System.out.println("Already reach the end!");
             return false;
         }
-//        String debugStr = String.format("Compare with %s,%s",this.input.substring(this.pos,this.pos+1),c);
-//        System.out.println(debugStr);
 
         if(this.input.substring(this.pos,this.pos+1).equals(c)){
             this.pos++;

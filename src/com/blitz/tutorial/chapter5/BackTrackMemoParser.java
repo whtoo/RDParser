@@ -6,7 +6,7 @@ import com.blitz.tutorial.chapter5.ast.AstNode;
 import com.blitz.tutorial.chapter5.ast.ListNode;
 import com.blitz.tutorial.chapter5.ast.TerminalNode;
 import com.blitz.tutorial.common.Lexer;
-
+import static com.blitz.tutorial.chapter6.TokenEnum.*;
 import java.util.HashMap;
 
 /**
@@ -64,10 +64,10 @@ public class BackTrackMemoParser extends BackTrackParser {
         System.out.println("Parsed list rule at token index:"+index());
         AstNode list = new ListNode();
         list.addChildNode(new TerminalNode(LT(1)));
-        match(BackTrackLexer.LBRACK);
+        match(LBRACK);
         list.addChildNode(elements());
         list.addChildNode(new TerminalNode(LT(1)));
-        match(BackTrackLexer.RBRACK);
+        match(RBRACK);
         return list;
     }
 

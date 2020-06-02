@@ -1,13 +1,12 @@
 package com.blitz.tutorial.chapter2;
 
+import com.blitz.tutorial.chapter6.TokenEnum;
 import com.blitz.tutorial.common.Lexer;
 import com.blitz.tutorial.common.Token;
 
+import static com.blitz.tutorial.chapter6.TokenEnum.*;
+
 public class ListLexer extends Lexer {
-    public static int NAME = 2;
-    public static int COMMA = 3;
-    public static int LBRACK = 4;
-    public static int RBRACK = 5;
     public static String[] tokenNames =
             {"n/a","<EOF>","NAME","COMMA","LBRACK","RBRACK"};
 
@@ -16,14 +15,15 @@ public class ListLexer extends Lexer {
     }
 
     @Override
-    public String getTokenName(int tokenType) {
-        return tokenNames[tokenType];
+    //TODO: add map of tokenNames
+    public String getTokenName(TokenEnum tokenType) {
+        return "";
     }
 
     @Override
     public Token nextToken() {
         int startPos = this.p;
-        while(c != EOF){
+        while(c != (char)-1){
             switch (c) {
                 case ' ': case '\t': case '\n': case '\r': WS();continue;
                 case ',':consume();return new Token(COMMA,",",startPos,p);
@@ -42,7 +42,7 @@ public class ListLexer extends Lexer {
             }
         }
 
-        return new Token(EOF_TYPE,"<EOF>");
+        return new Token(EOF,"<EOF>");
     }
 
 

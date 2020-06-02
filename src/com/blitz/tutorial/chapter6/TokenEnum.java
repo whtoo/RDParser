@@ -5,5 +5,13 @@ public enum TokenEnum {
     FLOAT,
     DOUBLE,
     STRING,
-    IDENTIFIER
+    IDENTIFIER,
+    OPERATOR,
+    CHARACTER,
+    EOF,
+    NAME,
+    COMMA,
+    LBRACK,
+    RBRACK,
+    EQUALS
 }

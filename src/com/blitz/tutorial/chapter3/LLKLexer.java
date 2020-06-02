@@ -3,9 +3,9 @@ package com.blitz.tutorial.chapter3;
 import com.blitz.tutorial.chapter2.ListLexer;
 import com.blitz.tutorial.common.Token;
 
-public class LLKLexer extends ListLexer {
-    public static int EQUALS = 6;
+import static com.blitz.tutorial.chapter6.TokenEnum.*;
 
+public class LLKLexer extends ListLexer {
     public LLKLexer(String input) {
         super(input);
     }
@@ -13,7 +13,7 @@ public class LLKLexer extends ListLexer {
     @Override
     public Token nextToken() {
         int startPos = this.p;
-        while(c != EOF){
+        while(c != (char)-1){
             switch (c) {
                 case ' ': case '\t': case '\n': case '\r': WS();continue;
                 case ',':consume();return new Token(COMMA,",",startPos,p);
@@ -26,6 +26,6 @@ public class LLKLexer extends ListLexer {
             }
         }
 
-        return new Token(EOF_TYPE,"<EOF>");
+        return new Token(EOF,"<EOF>");
     }
 }

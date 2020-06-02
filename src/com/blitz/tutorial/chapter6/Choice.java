@@ -1,6 +1,7 @@
 package com.blitz.tutorial.chapter6;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Choice implements IRuleApplication {
     List<IRuleApplication> exps;
@@ -45,5 +46,10 @@ public class Choice implements IRuleApplication {
     @Override
     public String ruleName() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "("+this.exps.stream().map(v -> v.toString() ).collect(Collectors.joining("/"))+")";
     }
 }

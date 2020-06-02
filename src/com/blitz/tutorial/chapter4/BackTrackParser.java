@@ -5,6 +5,8 @@ import com.blitz.tutorial.chapter5.ast.*;
 import com.blitz.tutorial.common.Lexer;
 import com.blitz.tutorial.common.Token;
 
+import static com.blitz.tutorial.chapter6.TokenEnum.*;
+
 /**
  * 单行模式
  */
@@ -29,12 +31,12 @@ public class BackTrackParser extends Parser {
             AstNode list = list();
             statNode.addChildNode(list);
             statNode.addChildNode(new TerminalNode(peekLT(1)));
-            match(Lexer.EOF_TYPE);
+            match(EOF);
         } else if (speculate_stat_alt2()) {
             AstNode assignNode = assign();
             statNode.addChildNode(assignNode);
             statNode.addChildNode(new TerminalNode(peekLT(1)));
-            match(Lexer.EOF_TYPE);
+            match(EOF);
         }
         else {
             throw new Error("expecting stat found " + LT(1));
@@ -49,7 +51,7 @@ public class BackTrackParser extends Parser {
 
         try {
             list();
-            match(Lexer.EOF_TYPE);
+            match(EOF);
         } catch (Exception ex) {
             System.out.println("Try with alt1 but failed");
             success = false;
@@ -67,7 +69,7 @@ public class BackTrackParser extends Parser {
 
         try {
             assign();
-            match(Lexer.EOF_TYPE);
+            match(EOF);
         } catch (Exception ex) {
             System.out.println("Try with alt2 but failed");
             success = false;
@@ -83,13 +85,13 @@ public class BackTrackParser extends Parser {
         System.out.println("Parse list rule at index"+index());
         AstNode list = new ListNode();
         list.addChildNode(new TerminalNode(peekLT(1)));
-        match(BackTrackLexer.LBRACK);
+        match(LBRACK);
 
         AstNode elems = elements();
         list.addChildNode(elems);
 
         list.addChildNode(new TerminalNode(peekLT(1)));
-        match(BackTrackLexer.RBRACK);
+        match(RBRACK);
 
         return list;
     }
@@ -98,7 +100,7 @@ public class BackTrackParser extends Parser {
     protected AstNode assign() throws Exception {
         AstNode lNode = list();
         AstNode equalToken = new TerminalNode(peekLT(1));
-        match(BackTrackLexer.EQUALS);
+        match(EQUALS);
         AstNode rNode = list();
         AstNode currentNode = new AssignNode();
         currentNode.addChildNode(lNode);
@@ -112,9 +114,9 @@ public class BackTrackParser extends Parser {
         AstNode elems = new ElementsNode(null,AstNode.ElEMENTSTYPE);
         AstNode fNode = element();
         elems.addChildNode(fNode);
-        while (LA(1) == BackTrackLexer.COMMA) {
+        while (LA(1) == COMMA) {
             elems.addChildNode(new TerminalNode(peekLT(1),AstNode.LEAFLTYPE));
-            match(BackTrackLexer.COMMA);
+            match(COMMA);
             AstNode sNode = element();
             elems.addChildNode(sNode);
         }
@@ -125,21 +127,21 @@ public class BackTrackParser extends Parser {
     // element : NAME = NAME | NAME | list;
     protected AstNode element() throws Exception {
         AstNode ele = new ElementNode(null,AstNode.ElEMENTTEPE);
-        if(LA(1) == BackTrackLexer.NAME && LA(2) == BackTrackLexer.EQUALS) {
+        if(LA(1) == NAME && LA(2) == EQUALS) {
             AstNode lNode = new TerminalNode(this.peekLT(1));
-            match(BackTrackLexer.NAME);
+            match(NAME);
             AstNode eqNode = new TerminalNode(this.peekLT(1));
-            match(BackTrackLexer.EQUALS);
+            match(EQUALS);
             AstNode rNode = new TerminalNode(this.peekLT(1));
-            match(BackTrackLexer.NAME);
+            match(NAME);
             ele.addChildNode(lNode);
             ele.addChildNode(eqNode);
             ele.addChildNode(rNode);
-        } else if(LA(1) == BackTrackLexer.NAME) {
+        } else if(LA(1) == NAME) {
             AstNode nameNode = new TerminalNode(this.peekLT(1));
-            match(BackTrackLexer.NAME);
+            match(NAME);
             ele.addChildNode(nameNode);
-        } else if(LA(1) == BackTrackLexer.LBRACK) {
+        } else if(LA(1) == LBRACK) {
             AstNode list = list();
             ele.addChildNode(list);
         } else {

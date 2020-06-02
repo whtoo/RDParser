@@ -59,4 +59,9 @@ public class Option implements IRuleApplication {
     public String ruleName() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "["+ this.expr.toString() +"]";
+    }
 }

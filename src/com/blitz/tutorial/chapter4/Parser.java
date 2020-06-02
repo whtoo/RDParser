@@ -1,6 +1,7 @@
 package com.blitz.tutorial.chapter4;
 
 import com.blitz.tutorial.chapter5.MismatchedTokenException;
+import com.blitz.tutorial.chapter6.TokenEnum;
 import com.blitz.tutorial.common.Lexer;
 import com.blitz.tutorial.common.Token;
 
@@ -38,7 +39,7 @@ public class Parser {
         return markers.size() > 0;
     }
 
-    public void match(int x) throws MismatchedTokenException {
+    public void match(TokenEnum x) throws MismatchedTokenException {
         if (LA(1) == x) consume();
         else throw new MismatchedTokenException("expecting " + input.getTokenName(x)+"; found "+ input.getTokenName(LA(1)));
     }
@@ -65,7 +66,7 @@ public class Parser {
         return lookahead.get(pos + i - 1);
     }
 
-    public int LA(int x){
+    public TokenEnum LA(int x){
         return LT(x).type;
     }
 

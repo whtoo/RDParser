@@ -15,7 +15,9 @@ public class Not implements IRuleApplication {
         }
         return null;
     }
-
+    static public Not LookAhead(IRuleApplication ruleApplication){
+        return new Not(new Not(ruleApplication));
+    }
     /**
      * 测试是否跳过当前模式
      *
@@ -29,5 +31,10 @@ public class Not implements IRuleApplication {
     @Override
     public String ruleName() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "!"+this.exp.toString();
     }
 }

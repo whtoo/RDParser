@@ -44,4 +44,9 @@ public class Skip implements IRuleApplication {
     public String ruleName() {
         return "Skip";
     }
+
+    @Override
+    public String toString() {
+        return "Skip("+this.epxr.toString()+")";
+    }
 }

@@ -1,8 +1,10 @@
 package com.blitz.tutorial.common;
 
+import com.blitz.tutorial.chapter6.TokenEnum;
+
+import static org.stringtemplate.v4.compiler.STLexer.EOF;
+
 public abstract class Lexer {
-    public static final char EOF = (char)-1; // EOF字符，即文件的结尾
-    public static final int EOF_TYPE= 1;// 表示EOF的词法类型
     protected int p = 0;
     protected String mInput;
     protected char c;
@@ -13,7 +15,7 @@ public abstract class Lexer {
     }
 
     public abstract Token nextToken();
-    public abstract String getTokenName(int tokenType);
+    public abstract String getTokenName(TokenEnum tokenType);
 
     /**
      * 向前移动一个字符，检测输入是否结束

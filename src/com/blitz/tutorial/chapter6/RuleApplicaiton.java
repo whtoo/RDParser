@@ -93,6 +93,11 @@ public class RuleApplicaiton implements IRuleApplication{
     }
 
     protected Object buildTerminalNode(String type,String terminalSymbol,int start,int end) {
-        return new TerminalNode(new Token(TokenEnum.STRING.ordinal(),terminalSymbol,start,end));
+        return new TerminalNode(new Token(TokenEnum.STRING,terminalSymbol,start,end));
+    }
+
+    @Override
+    public String toString() {
+        return this._ruleName;
     }
 }

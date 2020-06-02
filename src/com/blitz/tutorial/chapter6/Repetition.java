@@ -43,4 +43,9 @@ public class Repetition implements IRuleApplication {
     public String ruleName() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "("+exp.toString()+")"+"*";
+    }
 }
