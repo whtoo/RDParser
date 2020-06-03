@@ -8,23 +8,14 @@ public class RegexTerminal extends Terminal {
     RegexTerminal(String str) {
         super(str);
     }
-    /**
-     *
-     * @param str Regex pattern
-     * @param shouldSkip follow Terminal
-     */
-    RegexTerminal(String str, Boolean shouldSkip) {
-        super(str, shouldSkip);
-    }
 
     /**
      *
      * @param str Regex pattern
-     * @param shouldSkip follow Terminal
      * @param isReserved follow Terminal
      */
-    RegexTerminal(String str, Boolean shouldSkip, Boolean isReserved) {
-        super(str, shouldSkip, isReserved);
+    RegexTerminal(String str, Boolean isReserved) {
+        super(str, isReserved);
     }
 
     @Override

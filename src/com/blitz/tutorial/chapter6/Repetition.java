@@ -1,6 +1,7 @@
 package com.blitz.tutorial.chapter6;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Repetition implements IRuleApplication {
@@ -22,7 +23,14 @@ public class Repetition implements IRuleApplication {
                 break;
             } else {
                 if (!exp.shouldSkip()){
-                    ans.add(cst);
+                    if(cst instanceof List && ((List) cst).isEmpty()){
+                        continue;
+                    }
+                    if(cst instanceof List){
+                        ans.addAll((Collection<?>) cst);
+                    } else {
+                        ans.add(cst);
+                    }
                 }
             }
         }
@@ -46,6 +54,6 @@ public class Repetition implements IRuleApplication {
 
     @Override
     public String toString() {
-        return "("+exp.toString()+")"+"*";
+        return "{"+exp.toString()+"}"+"*";
     }
 }

@@ -1,6 +1,7 @@
 package com.blitz.tutorial.chapter6;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,14 @@ public class Sequence implements IRuleApplication {
                 //此时表示expr成功解析
                 i++;
                 if (!exp.shouldSkip()){
-                    ans.add(cst);
+                    if(cst instanceof List && ((List) cst).isEmpty()){
+                        continue;
+                    }
+                    if(cst instanceof List){
+                        ans.addAll((Collection<?>) cst);
+                    } else {
+                        ans.add(cst);
+                    }
                 }
             } else {
                 i++;
@@ -52,6 +60,8 @@ public class Sequence implements IRuleApplication {
 
     @Override
     public String toString() {
-        return this.exps.stream().map(v -> v.toString()).collect(Collectors.joining(" "));
+        return "["+this.exps.stream().map(v -> v.toString()).collect(Collectors.joining(" "))+"]";
     }
+
+
 }

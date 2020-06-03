@@ -15,9 +15,7 @@ public class Not implements IRuleApplication {
         }
         return null;
     }
-    static public Not LookAhead(IRuleApplication ruleApplication){
-        return new Not(new Not(ruleApplication));
-    }
+
     /**
      * 测试是否跳过当前模式
      *

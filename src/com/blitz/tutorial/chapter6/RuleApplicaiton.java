@@ -56,14 +56,14 @@ public class RuleApplicaiton implements IRuleApplication{
                if(this.isLexical){
                    //词法归并，规约动作为flatten + concat -> string
                    if(this.reduction != null){
-                       cst = this.reduction.reduceParser(this,originalPos,matcher.pos,matcher.input.substring(originalPos,matcher.pos));
+                       cst = this.reduction.reduceParser(this,originalPos,matcher.pos,cst,matcher.input.substring(originalPos,matcher.pos));
                    } else {
                        cst = matcher.input.substring(originalPos,matcher.pos);
                    }
                } else {
                    //语法规约
                    if(this.reduction != null){
-                        cst = this.reduction.reduceParser(this,originalPos,matcher.pos,cst);
+                        cst = this.reduction.reduceParser(this,originalPos,matcher.pos,cst,matcher.input.substring(originalPos,matcher.pos));
                    }
                }
             }
@@ -100,4 +100,5 @@ public class RuleApplicaiton implements IRuleApplication{
     public String toString() {
         return this._ruleName;
     }
+
 }

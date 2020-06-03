@@ -20,12 +20,12 @@ public class Choice implements IRuleApplication {
     public Object eval(Matcher matcher) {
         int origPos = matcher.pos;
         for (IRuleApplication exp : this.exps) {
-            if(exp.ruleName() != null) {
-                System.out.printf("eval rule %s \n", exp.ruleName());
-            }
+
             matcher.pos = origPos;
             Object cst = exp.eval(matcher);
-
+            if(exp.ruleName() != null && cst != null) {
+                System.out.printf("eval rule %s %s \n", exp.ruleName(),cst.toString());
+            }
             if (cst != null) {
                 return cst;
             }

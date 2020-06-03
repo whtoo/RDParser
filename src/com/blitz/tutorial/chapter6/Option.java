@@ -2,6 +2,7 @@ package com.blitz.tutorial.chapter6;
 
 import javax.imageio.event.IIOReadUpdateListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,8 +31,16 @@ public class Option implements IRuleApplication {
         while (true){
             int origPos = matcher.pos;
             Object cst = this.expr.eval(matcher);
-            if (cst != null){
-                ans.add(cst);
+            if (cst != null ){
+                if(!this.expr.shouldSkip()){
+                    if(cst instanceof List && ((List) cst).isEmpty()) continue;
+                    if(cst instanceof List) {
+                        ans.addAll((Collection<?>) cst);
+                    } else {
+                        ans.add(cst);
+
+                    }
+                }
                 matchCount++;
             } else {
 
