@@ -33,6 +33,8 @@ public class Repetition implements IRuleApplication {
                     }
                 }
             }
+            /// 已经匹配到文件尾部，终止匹配
+            if(matcher.isEOF()) break;;
         }
         return ans;
     }
@@ -54,6 +56,9 @@ public class Repetition implements IRuleApplication {
 
     @Override
     public String toString() {
-        return "{"+exp.toString()+"}"+"*";
+        if (exp instanceof Sequence || exp instanceof Repetition || exp instanceof Choice || exp instanceof Option){
+            return "("+exp.toString()+")"+"*";
+        }
+        return exp.toString()+"*";
     }
 }

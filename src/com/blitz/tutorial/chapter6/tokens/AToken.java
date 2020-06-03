@@ -1,4 +1,4 @@
-package com.blitz.tutorial.chapter6.ast;
+package com.blitz.tutorial.chapter6.tokens;
 
 import com.blitz.tutorial.chapter6.TokenEnum;
 

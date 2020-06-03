@@ -1,7 +1,6 @@
-package com.blitz.tutorial.chapter6.ast;
+package com.blitz.tutorial.chapter6.tokens;
 
 import com.blitz.tutorial.chapter6.TokenEnum;
-import com.blitz.tutorial.common.Token;
 
 public class OPToken extends AToken {
 

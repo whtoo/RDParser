@@ -38,7 +38,9 @@ public interface IRuleApplication{
     static IRuleApplication choice(IRuleApplication ...ruleApplications){
         return new Choice(List.of(ruleApplications));
     }
-
+    static IRuleApplication range(String start,String end) {
+        return new Range(start,end);
+    }
     static IRuleApplication repetition(IRuleApplication ruleApplications){
         return new Repetition(ruleApplications);
     }
@@ -58,7 +60,7 @@ public interface IRuleApplication{
     static IRuleApplication sep(String str) {
         return new Skip(new Terminal(str));
     }
-
+    static IRuleApplication skip(IRuleApplication ruleApplication) {return new Skip(ruleApplication);}
     static Not lookAhead(IRuleApplication ruleApplication){
         return new Not(new Not(ruleApplication));
     }

@@ -48,6 +48,7 @@ public class Option implements IRuleApplication {
                 break;
             }
 
+            if(matchCount == 1) break;
             if (matchCount > 1) return null;
         }
 
@@ -71,6 +72,10 @@ public class Option implements IRuleApplication {
 
     @Override
     public String toString() {
-        return "["+ this.expr.toString() +"]";
+        if(expr instanceof Sequence || expr instanceof Repetition || expr instanceof Choice|| expr instanceof Option){
+            return "("+this.expr.toString()+")"+"?";
+        }
+
+        return  this.expr.toString() + "?";
     }
 }

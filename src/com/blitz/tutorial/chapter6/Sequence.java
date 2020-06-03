@@ -60,7 +60,7 @@ public class Sequence implements IRuleApplication {
 
     @Override
     public String toString() {
-        return "["+this.exps.stream().map(v -> v.toString()).collect(Collectors.joining(" "))+"]";
+        return this.exps.stream().map(v -> v.toString()).collect(Collectors.joining(" "));
     }
 
 

@@ -80,16 +80,21 @@ public class Matcher {
 
     protected boolean consume(String c){
         if(this.pos == this.input.length()) {
+            if(c.charAt(0) == (char)-1){
+                return true;
+            }
             return false;
         }
 
-        if(this.input.substring(this.pos,this.pos+1).equals(c)){
+        if(this.input.substring(this.pos,this.pos+1).charAt(0) == c.charAt(0)){
             this.pos++;
             return true;
         }
         return false;
     }
-
+    protected Boolean isEOF() {
+        return this.pos == this.input.length();
+    }
     protected IRuleApplication skipActions() {
         return this.rules.get("skipRule");
     }

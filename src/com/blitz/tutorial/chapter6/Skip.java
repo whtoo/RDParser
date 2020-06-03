@@ -47,6 +47,6 @@ public class Skip implements IRuleApplication {
 
     @Override
     public String toString() {
-        return "Skip("+this.epxr.toString()+")";
+        return "_("+this.epxr.toString()+")";
     }
 }
