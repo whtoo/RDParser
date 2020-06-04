@@ -47,7 +47,7 @@ public class RuleApplicaiton implements IRuleApplication{
             matcher.isLexical = this.isLexicalDef();
 
             Object cst = ruleApplicaiton.eval(matcher);
-
+            System.out.printf("eval rule %s %s \n",this.ruleName(),cst);
             if(cst != null) {
                 /*
                 DONE 增加语义动作(Semantic actions)

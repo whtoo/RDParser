@@ -60,6 +60,9 @@ public interface IRuleApplication{
     static IRuleApplication sep(String str) {
         return new Skip(new Terminal(str));
     }
+    static IRuleApplication exclude(IRuleApplication ruleApplication){
+        return new Exclude(ruleApplication);
+    }
     static IRuleApplication skip(IRuleApplication ruleApplication) {return new Skip(ruleApplication);}
     static Not lookAhead(IRuleApplication ruleApplication){
         return new Not(new Not(ruleApplication));

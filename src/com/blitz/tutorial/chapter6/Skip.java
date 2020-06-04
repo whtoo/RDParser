@@ -20,7 +20,7 @@ public class Skip implements IRuleApplication {
 
         Object cst = this.epxr.eval(matcher);
 
-        //System.out.println(String.format("skip from %s to %s",start,matcher.pos));
+        System.out.println(String.format("skip %s from %s to %s",epxr.toString(),start,matcher.pos));
         if(cst instanceof List && ((List) cst).isEmpty()){
             cst = null;
         }
